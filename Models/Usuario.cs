@@ -1,4 +1,4 @@
-﻿namespace ProjetoPABD.Models
+﻿namespace devagora_api.Models
 {
     public class Usuario
     {
@@ -7,6 +7,6 @@
         public string? Email { get; set; }
         private string Senha { get; set; }
         public DateTime Data_Cadastro { get; set; } = DateTime.Now;
-        public bool Tipo_Usuario;
+        public bool Tipo_Usuario = false;
     }
 }

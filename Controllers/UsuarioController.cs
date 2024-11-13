@@ -1,4 +1,4 @@
-﻿namespace ProjetoPABD.Controllers
+﻿namespace devagora_api.Controllers
 {
     public class UsuarioController
     {
