@@ -2,11 +2,11 @@ CREATE DATABASE `DevAgora`;
 USE `DevAgora` ;
 
 CREATE TABLE `Usuario` (
-  `ID_Usuario` INT NOT NULL,
+  `ID_Usuario` INT NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(45) NULL,
   `email` VARCHAR(45) NULL,
   `senha` VARCHAR(20) NULL,
-  `data_cadastro` DATE NULL,
+  `data_cadastro` DATETIME NULL,
   `tipo_usuario` TINYINT NULL,
   PRIMARY KEY (`ID_Usuario`)
   );
@@ -17,29 +17,29 @@ CREATE TABLE `Perfil` (
   `foto_perfil` BLOB NULL,
   `habilidades` VARCHAR(100) NULL,
   `experiencias` VARCHAR(100) NULL,
-  `Usuário_ID_Usuario` INT NOT NULL,
+  `Usuario_ID_Usuario` INT NOT NULL,
   PRIMARY KEY (`ID_Perfil`),
-  FOREIGN KEY (`Usuário_ID_Usuario`) REFERENCES `Usuário` (`ID_Usuario`)
+  FOREIGN KEY (`Usuario_ID_Usuario`) REFERENCES `Usuario` (`ID_Usuario`)
     );
 
 CREATE TABLE `Rascunho` (
   `ID_Rascunho` INT NOT NULL,
   `conteudo` TEXT(1000) NULL,
   `tipo_rascunho` TINYINT NULL,
-  `data_criacao` DATE NULL,
-  `data_edicao` DATE NULL,
-  `Usuário_ID_Usuario` INT NOT NULL,
+  `data_criacao` DATETIME NULL,
+  `data_edicao` DATETIME NULL,
+  `Usuario_ID_Usuario` INT NOT NULL,
   PRIMARY KEY (`ID_Rascunho`),
-  FOREIGN KEY (`Usuário_ID_Usuario`) REFERENCES `Usuário` (`ID_Usuario`)
+  FOREIGN KEY (`Usuario_ID_Usuario`) REFERENCES `Usuario` (`ID_Usuario`)
   );
 
 CREATE TABLE `Post` (
   `ID_Post` INT NOT NULL,
-  `data_publicacao` DATE NULL,
+  `data_publicacao` DATETIME NULL,
   `tipo_post` TINYINT NULL,
-  `Usuário_ID_Usuario` INT NOT NULL,
+  `Usuario_ID_Usuario` INT NOT NULL,
   PRIMARY KEY (`ID_Post`),
-  FOREIGN KEY (`Usuário_ID_Usuario`) REFERENCES `Usuário` (`ID_Usuario`)
+  FOREIGN KEY (`Usuario_ID_Usuario`) REFERENCES `Usuario` (`ID_Usuario`)
   );
 
 CREATE TABLE `Pergunta` (
@@ -70,12 +70,12 @@ CREATE TABLE `Tag` (
 
 CREATE TABLE `Denúncia` (
   `ID_Denuncia` INT NOT NULL,
-  `data_denuncia` DATE NULL,
+  `data_denuncia` DATETIME NULL,
   `motivo` TEXT(400) NULL,
   `Usuário_ID_Usuario` INT NOT NULL,
   `Post_ID_Post` INT NOT NULL,
   PRIMARY KEY (`ID_Denuncia`),
-  FOREIGN KEY (`Usuário_ID_Usuario`) REFERENCES `Usuário` (`ID_Usuario`),
+  FOREIGN KEY (`Usuário_ID_Usuario`) REFERENCES `Usuario` (`ID_Usuario`),
   FOREIGN KEY (`Post_ID_Post`) REFERENCES `Post` (`ID_Post`)
 );
     
@@ -91,6 +91,6 @@ CREATE TABLE `Favoritos` (
   `Usuário_ID_Usuario` INT NOT NULL,
   `Post_ID_Post` INT NOT NULL,
   PRIMARY KEY (`Usuário_ID_Usuario`, `Post_ID_Post`),
-  FOREIGN KEY (`Usuário_ID_Usuario`) REFERENCES `Usuário` (`ID_Usuario`),
+  FOREIGN KEY (`Usuário_ID_Usuario`) REFERENCES `Usuario` (`ID_Usuario`),
   FOREIGN KEY (`Post_ID_Post`) REFERENCES `Post` (`ID_Post`)
 );
