@@ -1,11 +1,15 @@
-﻿namespace devagora_api.DTOs
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ProjetoPABD.DTOs
 {
     public class UsuarioDTO
     {
-        [Required(ErrorMessage = "Campo obrigatório")]
-        [MinLength(5, ErrorMessage = "Obrigatório ter no mínimo 5 caracteres!")]
-
-        [DefaultValue(false)]
-        public bool Tipo_Usuario { get; set; } = false;
+        [Required]
+        public string Nome { get; set; }
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+        [Required]
+        public string Senha { get; set; }
     }
 }
