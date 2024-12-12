@@ -24,5 +24,8 @@ namespace ProjetoPABD.Models
 
         [Column("tipo_usuario")]
         public bool Tipo_Usuario { get; set; }
+
+        //relacionamento one-to-one
+        public Perfil Perfil { get; set; }
     }
 }
