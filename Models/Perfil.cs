@@ -26,7 +26,7 @@ namespace ProjetoPABD.Models
         public string? Experiencias { get; set; }
 
         [ForeignKey("ID_Usuario")]
-        public int ID_Usuario { get; set; }
+        public int Usuario_ID_Usuario { get; set; }
         public Usuario Usuario { get; set; }
     }
 }
