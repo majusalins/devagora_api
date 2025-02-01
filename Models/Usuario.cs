@@ -27,5 +27,8 @@ namespace ProjetoPABD.Models
 
         //relacionamento one-to-one
         public Perfil Perfil { get; set; }
+
+        //relacionamento one-to-many
+        public ICollection<Rascunho> Rascunhos { get; set; } = new List<Rascunho>();
     }
 }
