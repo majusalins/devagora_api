@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
 
 namespace ProjetoPABD.Models
 {
@@ -20,18 +19,20 @@ namespace ProjetoPABD.Models
         [Column("tipo_post")]
         public string? Tipo_Post { get; set; }
 
+        [Column("conteudo")]
+        public string? Conteudo { get; set; }
+
         [Column("data_publicacao")]
         public DateTime Data_Publicacao { get; set; } = DateTime.Now;
 
-        [ForeignKey("Usuario")]
+        [ForeignKey("Usuario_ID_Usuario")]
         public int Usuario_ID_Usuario { get; set; }
-        public Usuario Usuario { get; set; }
+        public Usuario Usuario { get; set; } = null!;
 
         [ForeignKey("Post_Pai")]
         public int? Post_Pai_ID { get; set; }
         public Post? Post_Pai { get; set; }
 
-        [JsonIgnore]
         public ICollection<Post> Respostas { get; set; } = new List<Post>();
     }
 }

@@ -17,22 +17,36 @@ namespace ProjetoPABD.Controllers
             _context = context;
         }
 
-        // Obter todos os posts
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
             try
             {
-                var listaPost = await _context.Post.ToListAsync();
+
+
+                var listaPost = await _context.Post
+                        .Include(u => u.Usuario)
+                        .Include(p => p.ID_Post)
+                        .Select(p => new
+                        {
+                            p.ID_Post,
+                            p.Tipo_Post,
+                            p.Data_Publicacao,
+                            p.Conteudo,
+                            p.Post_Pai,
+                            Post = new { p.ID_Post, p.Conteudo },
+                        })
+                        .ToListAsync();
+
                 return Ok(listaPost);
             }
-            catch (Exception ex)
+
+            catch (Exception e)
             {
-                return BadRequest(new { message = "Erro ao buscar posts.", error = ex.Message });
+                return Problem(e.Message);
             }
         }
 
-        // Obter um post específico pelo ID
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -50,23 +64,35 @@ namespace ProjetoPABD.Controllers
             }
         }
 
-        // Criar um novo post
         [HttpPost]
-        public async Task<IActionResult> Create(Post post)
+        public async Task<IActionResult> Post([FromBody] PostDTO postDTO)
         {
             try
             {
-                _context.Post.Add(post);
+                var post = new Post()
+                {
+                    Usuario_ID_Usuario = postDTO.ID_Usuario,
+                    Tipo_Post = postDTO.Tipo_Post,
+                    Conteudo = postDTO.Conteudo,
+                    Post_Pai_ID = postDTO.Post_Pai_ID,
+                };
+
+                if (post == null || post.Usuario_ID_Usuario <= 0)
+                {
+                    return BadRequest("Post ou ID de usuário inválido.");
+                }
+
+                await _context.Post.AddAsync(post);
                 await _context.SaveChangesAsync();
-                return CreatedAtAction(nameof(GetById), new { id = post.ID_Post }, post);
+
+                return Ok(post);
             }
             catch (Exception ex)
             {
-                return BadRequest(new { message = "Erro ao criar post.", error = ex.Message });
+                return BadRequest($"Erro ao salvar: {ex.Message}\nStackTrace: {ex.StackTrace}\nInner Exception: {ex.InnerException?.Message}");
             }
         }
 
-        // Atualizar um post existente
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, Post postAtualizado)
         {
@@ -85,7 +111,6 @@ namespace ProjetoPABD.Controllers
             }
         }
 
-        // Deletar um post
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -99,6 +124,7 @@ namespace ProjetoPABD.Controllers
                 await _context.SaveChangesAsync();
                 return NoContent();
             }
+
             catch (Exception ex)
             {
                 return BadRequest(new { message = "Erro ao excluir post.", error = ex.Message });

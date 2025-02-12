@@ -27,6 +27,6 @@ namespace ProjetoPABD.Models
 
         [ForeignKey("ID_Usuario")]
         public int Usuario_ID_Usuario { get; set; }
-        public Usuario Usuario { get; set; }
+        public Usuario? Usuario { get; set; }
     }
 }

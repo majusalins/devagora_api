@@ -32,6 +32,13 @@ namespace ProjetoPABD.DataContext
                 .HasForeignKey(p => p.Post_Pai_ID)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<Post>()
+                .HasOne(p => p.Usuario)
+                .WithMany(u => u.Posts)
+                .HasForeignKey(p => p.Usuario_ID_Usuario)
+                .OnDelete(DeleteBehavior.Restrict);
+
+
             base.OnModelCreating(modelBuilder);
         }
     }

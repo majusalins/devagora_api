@@ -63,11 +63,6 @@ namespace ProjetoPABD.Controllers
                     Usuario_ID_Usuario = perfilDTO.ID_Usuario,
                 };
 
-                if (perfil == null || perfil.Usuario_ID_Usuario <= 0)
-                {
-                    return BadRequest("Perfil ou ID de usuário inválido.");
-                }
-
                 await _context.Perfil.AddAsync(perfil);
                 await _context.SaveChangesAsync();
 

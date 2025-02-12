@@ -1,9 +1,17 @@
-﻿namespace ProjetoPABD.DTOs
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ProjetoPABD.DTOs
 {
     public class PostDTO
     {
-        public int ID_Usuario;
-        public DateTime Data_Publicacao = DateTime.Now;
+        [Required]
+        public int ID_Usuario { get; set; }
+        [Required]
         public string? Tipo_Post { get; set; }
+        public int Post_Pai_ID {  get; set; }
+        public string? Conteudo {  get; set; }
+
+        public DateTime Data_Publicacao = DateTime.Now;
+
     }
 }
