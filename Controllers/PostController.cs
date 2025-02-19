@@ -22,30 +22,37 @@ namespace ProjetoPABD.Controllers
         {
             try
             {
-
-
                 var listaPost = await _context.Post
-                        .Include(u => u.Usuario)
-                        .Include(p => p.ID_Post)
-                        .Select(p => new
+                    .Include(p => p.Usuario)
+                    .Include(p => p.Post_Pai)
+                    .Select(p => new
+                    {
+                        p.ID_Post,
+                        p.Tipo_Post,
+                        p.Data_Publicacao,
+                        p.Conteudo,
+                        Post_Pai_ID = p.Post_Pai_ID,
+                        Usuario = new
                         {
-                            p.ID_Post,
-                            p.Tipo_Post,
-                            p.Data_Publicacao,
-                            p.Conteudo,
-                            p.Post_Pai,
-                            Post = new { p.ID_Post, p.Conteudo },
-                        })
-                        .ToListAsync();
+                            p.Usuario.ID_Usuario,
+                            p.Usuario.Nome
+                        },
+                        Post_Pai = p.Post_Pai != null ? new
+                        {
+                            p.Post_Pai.ID_Post,
+                            p.Post_Pai.Conteudo
+                        } : null
+                    })
+                    .ToListAsync();
 
                 return Ok(listaPost);
             }
-
             catch (Exception e)
             {
                 return Problem(e.Message);
             }
         }
+
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
@@ -101,7 +108,14 @@ namespace ProjetoPABD.Controllers
 
             try
             {
-                _context.Entry(postAtualizado).State = EntityState.Modified;
+                var existingPost = await _context.Post.FindAsync(id);
+                if (existingPost == null)
+                    return NotFound(new { message = "Post não encontrado." });
+
+                existingPost.Tipo_Post = postAtualizado.Tipo_Post ?? existingPost.Tipo_Post;
+                existingPost.Conteudo = postAtualizado.Conteudo ?? existingPost.Conteudo;
+
+                _context.Entry(existingPost).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
                 return NoContent();
             }
@@ -110,6 +124,7 @@ namespace ProjetoPABD.Controllers
                 return BadRequest(new { message = "Erro ao atualizar post.", error = ex.Message });
             }
         }
+
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
