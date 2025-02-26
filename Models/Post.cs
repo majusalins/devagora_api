@@ -37,5 +37,8 @@ namespace ProjetoPABD.Models
 
         [JsonIgnore]
         public ICollection<Post> Respostas { get; set; } = new List<Post>();
+
+        public ICollection<Denuncia> Denuncias { get; set; } = new List<Denuncia>();
+
     }
 }

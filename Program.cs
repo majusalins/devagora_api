@@ -37,8 +37,8 @@ builder.Services.AddSwaggerGen(options =>
     options.SwaggerDoc("v1", new OpenApiInfo
     {
         Version = "v1",
-        Title = "Gestão Fácil API",
-        Description = "API de consumo para aplicação Gestão Fácil (portarias)"
+        Title = "FÃ³rum DevAgora",
+        Description = "API de consumo para fÃ³rum de perguntas online"
     });
     options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
     {
@@ -47,7 +47,7 @@ builder.Services.AddSwaggerGen(options =>
         Scheme = "Bearer",
         BearerFormat = "JWT",
         In = ParameterLocation.Header,
-        Description = "Cabeçalho de autorização JWT. Usando esquema de Bearer \r\n\r\n Digite 'Bearer' de colocar o token"
+        Description = "Cabeï¿½alho de autorizaï¿½ï¿½o JWT. Usando esquema de Bearer \r\n\r\n Digite 'Bearer' de colocar o token"
     });
     options.AddSecurityRequirement(new OpenApiSecurityRequirement
     {

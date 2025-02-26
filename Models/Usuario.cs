@@ -30,6 +30,7 @@ namespace ProjetoPABD.Models
 
         //relacionamento one-to-many
         public ICollection<Rascunho> Rascunhos { get; set; } = new List<Rascunho>();
+        public ICollection<Denuncia> Denuncias { get; set; } = new List<Denuncia>();
         public ICollection<Post> Posts { get; set; } = new List<Post>();
     }
 }

@@ -12,6 +12,7 @@ namespace ProjetoPABD.DataContext
         public DbSet<Rascunho> Rascunho { get; set; }
         public DbSet<Post> Post { get; set; }
         public DbSet<Tag> Tag { get; set; }
+        public DbSet<Denuncia> Denuncia { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -39,6 +40,17 @@ namespace ProjetoPABD.DataContext
                 .HasForeignKey(p => p.Usuario_ID_Usuario)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            modelBuilder.Entity<Usuario>()
+                .HasMany(u => u.Denuncias)
+                .WithOne(d => d.Usuario)
+                .HasForeignKey(d => d.Usuario_ID_Usuario)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Denuncia>()
+                .HasOne(p => p.Post)
+                .WithMany(p => p.Denuncias)
+                .HasForeignKey(p => p.Post_ID_Post)
+                .OnDelete(DeleteBehavior.Cascade);
 
             base.OnModelCreating(modelBuilder);
         }

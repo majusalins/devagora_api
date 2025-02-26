@@ -89,6 +89,8 @@ namespace ProjetoPABD.Controllers
                     return BadRequest("Post ou ID de usuário inválido.");
                 }
 
+                Console.WriteLine(post);    
+
                 await _context.Post.AddAsync(post);
                 await _context.SaveChangesAsync();
 
