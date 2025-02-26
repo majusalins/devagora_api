@@ -11,6 +11,7 @@ namespace ProjetoPABD.DataContext
         public DbSet<Perfil> Perfil { get; set; }
         public DbSet<Rascunho> Rascunho { get; set; }
         public DbSet<Post> Post { get; set; }
+        public DbSet<Tag> Tag { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
